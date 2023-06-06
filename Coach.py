@@ -1,6 +1,6 @@
 import datetime
 import random
-# Function to load pending tasks from the data file
+
 def load_pending_tasks():
     try:
         with open("data.txt", "r") as file:
@@ -10,13 +10,13 @@ def load_pending_tasks():
     except FileNotFoundError:
         return []
 
-# Function to save pending tasks to the data file
+
 def save_pending_tasks(tasks):
     with open("data.txt", "w") as file:
         for task in tasks:
             file.write(task + "\n")
 
-# Function to load progress from the progress file
+
 def load_progress():
     try:
         with open("progress.txt", "r") as file:
@@ -28,13 +28,11 @@ def load_progress():
     except FileNotFoundError:
         return 0
 
-
-# Function to save progress to the progress file
 def save_progress(progress):
     with open("progress.txt", "w") as file:
         file.write(str(progress))
 
-# Function to calculate Goggins points based on completion time
+
 def calculate_goggins_points(completion_time):
     current_time = datetime.datetime.now()
     time_difference = current_time - completion_time
@@ -46,7 +44,7 @@ def calculate_goggins_points(completion_time):
     else:
         return 0
 
-# Function to display achievements based on Goggins points
+
 def display_achievements(progress):
     if progress >= 20000:
         print("Congratulations! You have achieved Goggins' Praise.")
@@ -55,22 +53,19 @@ def display_achievements(progress):
 
 def fetch_random_paragraph():
     with open("goggins.txt", "r") as file:
-        paragraphs = file.read().split("\n\n")  # Assumes paragraphs are separated by two newlines
+        paragraphs = file.read().split("\n\n") 
         random_paragraph = random.choice(paragraphs)
         formatted_paragraph = random_paragraph.replace("\n", ".\n")
         return formatted_paragraph
 
 
 def main():
-    # Fetch a random paragraph from the goggins.txt file
     paragraph = fetch_random_paragraph()
     print(paragraph)
 
-    # Load pending tasks and progress
     tasks = load_pending_tasks()
     progress = load_progress()
 
-    # Process pending tasks
     if tasks:
         print("Pending tasks:")
         for task in tasks:
@@ -85,17 +80,12 @@ def main():
                 progress += points
                 print(f"Congratulations! You earned {points} Goggins points.")
 
-        # Remove completed tasks from pending tasks
-        tasks = [task for task in tasks if task not in completion_tasks]
 
-        # Save updated pending tasks and progress
+        tasks = [task for task in tasks if task not in completion_tasks]
         save_pending_tasks(tasks)
         save_progress(progress)
-
-        # Display achievements
         display_achievements(progress)
 
-    # Add new tasks
     while True:
         new_task = input("Enter a new task (or 'q' to quit): ")
         if new_task.lower() == "q":
@@ -109,6 +99,6 @@ def main():
 
     print("All the best with completing tasks. See You soon. Exiting program.")
 
-# Run the main function
+
 if __name__ == "__main__":
     main()
